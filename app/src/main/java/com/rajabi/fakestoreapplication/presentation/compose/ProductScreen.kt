@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModel
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModelFactory
+import androidx.compose.foundation.lazy.items
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +38,7 @@ fun ProductScreen(
 ) {
     LaunchedEffect(key1 = true) {
         fakeStoreViewModel.getProducts()
+//        fakeStoreViewModel.getSearchedProducts()
 
     }
 
@@ -44,7 +46,7 @@ fun ProductScreen(
     //Collecting states from ViewModel
     val searchText by fakeStoreViewModel.searchText.collectAsState()
     val isSearching by fakeStoreViewModel.isSearching.collectAsState()
-    val countriesList by fakeStoreViewModel.searchList.collectAsState()
+    val searchList = fakeStoreViewModel.searchProducts.observeAsState()
     Column(
         horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()
     ) {
@@ -61,21 +63,17 @@ fun ProductScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(16.dp)
             ) {
-                productList.value?.data?.filter {
-                    it.title.uppercase().contains(searchText.trim().uppercase())
-                }.apply {
-                    var products = this
 
-                    products?.let { product ->
-                        product?.size?.let { size ->
-                            items(size) { item ->
-                                ProductItem(product.get(item), modifier = Modifier.clickable {
+                searchList.apply {
 
-                                })
+                    searchList?.value?.size?.let { size ->
+                        items(size) { item ->
+                            ProductItem(searchList.value!!.get(item), modifier = Modifier)
 
-                            }
                         }
                     }
+
+
                 }
 
 

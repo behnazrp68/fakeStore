@@ -123,9 +123,12 @@ dependencies {
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1")
     testImplementation ("com.google.truth:truth:1.0.1")
     testImplementation ("androidx.arch.core:core-testing:$arch_version")
-    testImplementation ("org.robolectric:robolectric:4.4")
+    testImplementation ("org.robolectric:robolectric:+")
+
     implementation("org.jsoup:jsoup:1.11.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
+    testImplementation ("org.mockito:mockito-core:3.10.0")
+    androidTestImplementation ("org.mockito:mockito-android:3.10.0")
 
     //room
     implementation("androidx.room:room-runtime:2.2.4")

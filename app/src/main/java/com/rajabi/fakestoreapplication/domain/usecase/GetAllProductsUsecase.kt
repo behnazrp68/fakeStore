@@ -4,7 +4,7 @@ import com.rajabi.divarapplication.data.util.Resource
 import com.rajabi.fakestoreapplication.data.model.APIResponse
 import com.rajabi.fakestoreapplication.domain.repository.FakeStoreRepository
 
-class GetAllProductsUsecase(private val fakeStoreRepository: FakeStoreRepository) {
+open class GetAllProductsUsecase(private val fakeStoreRepository: FakeStoreRepository) {
     suspend fun execute(): Resource<APIResponse> {
         return fakeStoreRepository.getAllProducts()
     }

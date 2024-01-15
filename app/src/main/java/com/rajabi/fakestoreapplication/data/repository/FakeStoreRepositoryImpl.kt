@@ -1,10 +1,9 @@
-package com.rajabi.fakestoreapplication.repository
+package com.rajabi.fakestoreapplication.data.repository
 
 import com.rajabi.divarapplication.data.util.Resource
 import com.rajabi.fakestoreapplication.data.model.APIResponse
 import com.rajabi.fakestoreapplication.domain.repository.FakeStoreRepository
-import com.rajabi.fakestoreapplication.repository.datasource.FakeStoreRemoteDataSource
-import kotlinx.coroutines.flow.Flow
+import com.rajabi.fakestoreapplication.data.repository.datasource.FakeStoreRemoteDataSource
 import retrofit2.Response
 
 class FakeStoreRepositoryImpl
@@ -13,13 +12,13 @@ class FakeStoreRepositoryImpl
 ) : FakeStoreRepository {
     override suspend fun getAllProducts():
             Resource<APIResponse> {
-        return responseToResource(
-            divarRemoteDataSource.getProducts())
+        return responseToResource(divarRemoteDataSource.getProducts())
     }
 
 
     private fun responseToResource(
-        response: Response<APIResponse>):
+        response: Response<APIResponse>
+    ):
             Resource<APIResponse> {
         if (response.isSuccessful) {
             response.body()?.let { result ->

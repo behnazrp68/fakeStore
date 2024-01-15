@@ -1,8 +1,8 @@
-package com.rajabi.fakestoreapplication.repository.datasourceimpl
+package com.rajabi.fakestoreapplication.data.repository.datasourceimpl
 
 import com.rajabi.fakestoreapplication.data.api.FakeStoreAPIServices
 import com.rajabi.fakestoreapplication.data.model.APIResponse
-import com.rajabi.fakestoreapplication.repository.datasource.FakeStoreRemoteDataSource
+import com.rajabi.fakestoreapplication.data.repository.datasource.FakeStoreRemoteDataSource
 import retrofit2.Response
 
 class FakeStoreRemoteDataSourceImpl
