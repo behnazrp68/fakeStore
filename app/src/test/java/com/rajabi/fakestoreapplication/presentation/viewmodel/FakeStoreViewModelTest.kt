@@ -51,7 +51,7 @@ class FakeStoreViewModelTest {
     @Test
     fun returnErrorState() {
         fakeStoreViewModel.getProducts()
-        val currentList = fakeStoreViewModel.products.getOrAwaitValue { }
+        val currentList = fakeStoreViewModel.products.getOrAwaitValue{}
         assertThat(currentList.message).isNotNull()
     }
 

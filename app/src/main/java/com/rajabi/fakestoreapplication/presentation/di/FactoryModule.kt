@@ -2,6 +2,9 @@ package com.rajabi.fakestoreapplication.presentation.di
 
 import android.app.Application
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -16,10 +19,14 @@ class FactoryModule {
     @Singleton
     fun provideCityViewModelFactory(
         app: Application,
-        getAllProductsUsecase: GetAllProductsUsecase
+        getAllProductsUsecase: GetAllProductsUsecase,
+        saveProductUsecase: SaveProductUsecase,
+        updateProductUsecase: UpdateProductUsecase,
+        getProductByIDUsecase: GetProductByIDUsecase
     ): FakeStoreViewModelFactory {
         return FakeStoreViewModelFactory(
-            app, getAllProductsUsecase
+            app, getAllProductsUsecase, saveProductUsecase,
+            updateProductUsecase, getProductByIDUsecase
         )
     }
 

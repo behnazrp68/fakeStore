@@ -4,17 +4,25 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 
 class FakeStoreViewModelFactory
     (
     private val app: Application,
-    private val getAllProductsUsecase: GetAllProductsUsecase
+    private val getAllProductsUsecase: GetAllProductsUsecase,
+    private val saveProductUsecase: SaveProductUsecase,
+    private val updateProductUsecase: UpdateProductUsecase,
+    private val getProductByIDUsecase: GetProductByIDUsecase
+
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return FakeStoreViewModel(
             app,
-            getAllProductsUsecase
+            getAllProductsUsecase,
+            saveProductUsecase, updateProductUsecase, getProductByIDUsecase
         ) as T
     }
 }

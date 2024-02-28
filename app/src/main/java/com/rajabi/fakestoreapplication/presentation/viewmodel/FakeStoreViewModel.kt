@@ -6,39 +6,45 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.widget.Toast
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rajabi.divarapplication.data.util.Resource
 import com.rajabi.fakestoreapplication.data.model.APIResponse
-import com.rajabi.fakestoreapplication.data.model.APIResponseItem
+import com.rajabi.fakestoreapplication.data.model.ProductItem
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
 class FakeStoreViewModel
     (
     private val app: Application,
-    private val getAllProductsUsecase: GetAllProductsUsecase
+    private val getAllProductsUsecase: GetAllProductsUsecase,
+    private val saveProductUsecase: SaveProductUsecase,
+    private val updateProductUsecase: UpdateProductUsecase,
+    private val getProductByIDUsecase: GetProductByIDUsecase
 ) : AndroidViewModel(app) {
 
     val products: MutableLiveData<Resource<APIResponse>> = MutableLiveData()
-    val searchProducts: MutableLiveData<List<APIResponseItem>?> = MutableLiveData()
+    val product: MutableLiveData<ProductItem> = MutableLiveData()
+
+    val searchProducts: MutableLiveData<List<ProductItem>?> = MutableLiveData()
     lateinit var apiResult: Resource<APIResponse>
 
     fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
-//        products.postValue(Resource.Loading())
+        products.postValue(Resource.Loading())
 
         try {
             if (isNetworkAvailable(app)) {
                 apiResult = getAllProductsUsecase.execute()
+
                 products.postValue(apiResult)
                 searchProducts.postValue(apiResult.data)
 
@@ -103,5 +109,19 @@ class FakeStoreViewModel
         }
     }
 
+    fun saveProduct(productItem: ProductItem) {
+        viewModelScope.launch(Dispatchers.IO) { saveProductUsecase.execute(productItem) }
+    }
+
+
+    fun updateProduct(id: Int, isBookmark: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) { updateProductUsecase.execute(id, isBookmark) }
+    }
+
+
+    fun getProductById(id: Int)  =
+        viewModelScope.launch (Dispatchers.IO){
+            product.postValue(getProductByIDUsecase.execute(id))
+        }
 
 }
