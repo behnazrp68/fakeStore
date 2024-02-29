@@ -1,7 +1,7 @@
 package com.rajabi.fakestoreapplication.presentation.di
 
 import com.rajabi.fakestoreapplication.BuildConfig
-import com.rajabi.fakestoreapplication.data.api.FakeStoreAPIServices
+import com.rajabi.fakestoreapplication.data.api.StoreAPIServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +39,7 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun provideFakeStoreAPIService(retrofit: Retrofit): FakeStoreAPIServices {
-        return retrofit.create(FakeStoreAPIServices::class.java)
+    fun provideFakeStoreAPIService(retrofit: Retrofit): StoreAPIServices {
+        return retrofit.create(StoreAPIServices::class.java)
     }
 }

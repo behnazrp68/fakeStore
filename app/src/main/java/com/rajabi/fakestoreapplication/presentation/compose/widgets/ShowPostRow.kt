@@ -78,7 +78,7 @@ fun ShowPostRow(
 
                         product?.price?.let {
                             Text(
-                                text = " Price: "+ it.toInt().toString() ,
+                                text = " Price: "+ it.toString() ,
                                 color = Color.Black,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Normal,

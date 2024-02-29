@@ -3,17 +3,17 @@ package com.rajabi.fakestoreapplication.data.repository
 import com.rajabi.divarapplication.data.util.Resource
 import com.rajabi.fakestoreapplication.data.model.APIResponse
 import com.rajabi.fakestoreapplication.data.model.ProductItem
-import com.rajabi.fakestoreapplication.domain.repository.FakeStoreRepository
-import com.rajabi.fakestoreapplication.data.repository.datasource.FakeStoreRemoteDataSource
+import com.rajabi.fakestoreapplication.domain.repository.StoreRepository
+import com.rajabi.fakestoreapplication.data.repository.datasource.StoreRemoteDataSource
 import com.rajabi.fakestoreapplication.data.repository.datasource.StoreLocalDataSource
 import retrofit2.Response
 
-class FakeStoreRepositoryImpl
+class StoreRepositoryImpl
     (
-    private val storeRemoteDataSource: FakeStoreRemoteDataSource,
+    private val storeRemoteDataSource: StoreRemoteDataSource,
     private val storeLocalDataSource: StoreLocalDataSource
 
-) : FakeStoreRepository {
+) : StoreRepository {
     override suspend fun getAllProducts():
             Resource<APIResponse> {
         return responseToResource(storeRemoteDataSource.getProducts())
@@ -24,8 +24,6 @@ class FakeStoreRepositoryImpl
 
     override suspend fun saveProduct(product: ProductItem)  =
         storeLocalDataSource.saveProductToDB(product)
-    override suspend fun updateProduct(id: Int, isBookmark: Boolean) =
-        storeLocalDataSource.updateBookmark(id,isBookmark)
 
     private fun responseToResource(
         response: Response<APIResponse>

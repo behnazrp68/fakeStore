@@ -42,6 +42,7 @@ fun AppNavHost(
             }
             if (product != null) {
                 DetailScreen(product,
+
                     factory = factory)
             }
         }

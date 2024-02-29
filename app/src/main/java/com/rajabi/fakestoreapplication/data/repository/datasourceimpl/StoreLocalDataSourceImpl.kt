@@ -16,6 +16,5 @@ class StoreLocalDataSourceImpl
     override suspend fun clearAll() =
         productDao.deleteAllProducts()
 
-    override suspend fun updateBookmark(id:Int,isbookmark: Boolean) =
-        productDao.updateBookmark(id,isbookmark)
+
 }

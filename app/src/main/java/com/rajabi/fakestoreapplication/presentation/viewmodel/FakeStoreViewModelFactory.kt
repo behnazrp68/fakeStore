@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
-import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 
 class FakeStoreViewModelFactory
     (
     private val app: Application,
     private val getAllProductsUsecase: GetAllProductsUsecase,
     private val saveProductUsecase: SaveProductUsecase,
-    private val updateProductUsecase: UpdateProductUsecase,
     private val getProductByIDUsecase: GetProductByIDUsecase
 
 ) : ViewModelProvider.Factory {
@@ -22,7 +20,7 @@ class FakeStoreViewModelFactory
         return FakeStoreViewModel(
             app,
             getAllProductsUsecase,
-            saveProductUsecase, updateProductUsecase, getProductByIDUsecase
+            saveProductUsecase,getProductByIDUsecase
         ) as T
     }
 }

@@ -22,10 +22,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import com.rajabi.fakestoreapplication.data.model.ProductItem
 import com.rajabi.fakestoreapplication.presentation.compose.widgets.ProductImage
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModel
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetailScreen(
@@ -55,8 +58,15 @@ fun DetailScreen(
 
 ) {
     fakeStoreViewModel.getProductById(product.id)
-    val productByID = fakeStoreViewModel.product.observeAsState()
 
+    val productByID = fakeStoreViewModel.product.observeAsState()
+    var model by remember { mutableStateOf(R.drawable.baseline_star_border_24) }
+    productByID.value?.let {
+        if (it?.isBookmark == true) model = R.drawable.baseline_star_24
+        else if (it?.isBookmark == false) model = R.drawable.baseline_star_border_24
+
+
+    }
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
         Card(
@@ -74,31 +84,50 @@ fun DetailScreen(
                     .padding(12.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                var model by remember { mutableStateOf(R.drawable.baseline_star_border_24) }
-                if (productByID.value?.isBookmark == true) {
-                    model = R.drawable.baseline_star_24
-                } else {
-                    model = R.drawable.baseline_star_border_24
-                }
+
+
                 AsyncImage(
 
                     model = model,
                     contentDescription = "",
                     modifier = Modifier
                         .clickable(onClick = {
-                            if (productByID != null && productByID.value?.isBookmark == true) {
-                                model = R.drawable.baseline_star_border_24
-                                fakeStoreViewModel.updateProduct(product.id, false)
 
-                            } else if (productByID != null && productByID.value?.isBookmark == false) {
-                                model = R.drawable.baseline_star_24
-                                fakeStoreViewModel.updateProduct(product.id, false)
+                            productByID.value?.let {
+                                if (it?.isBookmark == true) {
+                                    it?.isBookmark = false
+                                    model = R.drawable.baseline_star_border_24
+                                    fakeStoreViewModel.saveProduct(it)
 
-                            } else {
+                                } else if (it?.isBookmark == false) {
+                                    it?.isBookmark = true
+                                    model = R.drawable.baseline_star_24
+                                    fakeStoreViewModel.saveProduct(it)
+
+                                }
+
+                            }
+                            if (productByID.value == null) {
                                 model = R.drawable.baseline_star_24
-                                product.isBookmark = true
+                                product.isBookmark = !(product.isBookmark)
                                 fakeStoreViewModel.saveProduct(product)
                             }
+
+
+//                            if (productByID != null && productByID.value?.isBookmark == true) {
+//                                model = R.drawable.baseline_star_border_24
+//
+//                                fakeStoreViewModel.updateProduct(productByID.value!!.id, false)
+//
+//                            } else if (productByID != null && productByID.value?.isBookmark == false) {
+//                                model = R.drawable.baseline_star_24
+//                                fakeStoreViewModel.updateProduct(productByID.value!!.id, true)
+//
+//                            } else {
+//                                model = R.drawable.baseline_star_24
+//                                product.isBookmark = true
+//                                fakeStoreViewModel.saveProduct(product)
+//                            }
 
                         })
                         .align(Alignment.End)
@@ -137,18 +166,17 @@ fun DetailScreen(
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        if (!product?.category.isNullOrEmpty())
-                            product?.category?.let {
-                                Text(
-                                    text = it,
-                                    color = Color.Black,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    lineHeight = 20.sp,
-                                )
+                        if (!product?.category.isNullOrEmpty()) product?.category?.let {
+                            Text(
+                                text = it,
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal,
+                                lineHeight = 20.sp,
+                            )
 
 
-                            }
+                        }
 
                     }
                 }
@@ -164,7 +192,7 @@ fun DetailScreen(
 
                         product?.price?.let {
                             Text(
-                                text = "Price : " + it.toInt().toString() + "$ ",
+                                text = "Price : " + it.toString() + "$ ",
                                 color = Color.Black,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Normal,

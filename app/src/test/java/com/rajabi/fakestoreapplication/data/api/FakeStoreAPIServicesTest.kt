@@ -12,17 +12,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class FakeStoreAPIServicesTest {
-    private lateinit var fakeStoreAPIServices: FakeStoreAPIServices
+    private lateinit var storeAPIServices: StoreAPIServices
     private lateinit var mockWebServer: MockWebServer
 
     @Before
     fun setUp() {
         mockWebServer = MockWebServer()
-        fakeStoreAPIServices = Retrofit.Builder()
+        storeAPIServices = Retrofit.Builder()
             .baseUrl(mockWebServer.url(""))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(FakeStoreAPIServices::class.java)
+            .create(StoreAPIServices::class.java)
 
     }
 
@@ -45,7 +45,7 @@ class FakeStoreAPIServicesTest {
     public fun getAllProducts_sentRequest_receivedExpected(){
         runBlocking {
             enqueueMockResponse("products.json")
-            val responseBody = fakeStoreAPIServices.getAllProducts().body()
+            val responseBody = storeAPIServices.getAllProducts().body()
             val request = mockWebServer.takeRequest()
             assertThat(responseBody).isNotNull()
             assertThat(request.path).isEqualTo("/products")

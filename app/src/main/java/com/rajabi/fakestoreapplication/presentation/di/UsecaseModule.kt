@@ -1,11 +1,9 @@
 package com.rajabi.fakestoreapplication.presentation.di
 
-import androidx.room.Update
-import com.rajabi.fakestoreapplication.domain.repository.FakeStoreRepository
+import com.rajabi.fakestoreapplication.domain.repository.StoreRepository
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
-import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,34 +17,27 @@ class UsecaseModule {
     @Provides
     @Singleton
     fun provideGetAllProductsUsecase(
-        fakeStoreRepository: FakeStoreRepository
+        storeRepository: StoreRepository
     ): GetAllProductsUsecase {
-        return GetAllProductsUsecase(fakeStoreRepository)
+        return GetAllProductsUsecase(storeRepository)
     }
 
 
     @Provides
     @Singleton
     fun provideGSaveProductUsecase(
-        fakeStoreRepository: FakeStoreRepository
+        storeRepository: StoreRepository
     ): SaveProductUsecase {
-        return SaveProductUsecase(fakeStoreRepository)
+        return SaveProductUsecase(storeRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideUpdateProductsUsecase(
-        fakeStoreRepository: FakeStoreRepository
-    ): UpdateProductUsecase {
-        return UpdateProductUsecase(fakeStoreRepository)
-    }
 
 
     @Provides
     @Singleton
     fun provideGetProductByIdUsecase(
-        fakeStoreRepository: FakeStoreRepository
+        storeRepository: StoreRepository
     ): GetProductByIDUsecase {
-        return GetProductByIDUsecase(fakeStoreRepository)
+        return GetProductByIDUsecase(storeRepository)
     }
 }

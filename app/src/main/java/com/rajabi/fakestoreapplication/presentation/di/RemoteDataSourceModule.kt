@@ -1,8 +1,8 @@
 package com.rajabi.fakestoreapplication.presentation.di
 
-import com.rajabi.fakestoreapplication.data.api.FakeStoreAPIServices
-import com.rajabi.fakestoreapplication.data.repository.datasource.FakeStoreRemoteDataSource
-import com.rajabi.fakestoreapplication.data.repository.datasourceimpl.FakeStoreRemoteDataSourceImpl
+import com.rajabi.fakestoreapplication.data.api.StoreAPIServices
+import com.rajabi.fakestoreapplication.data.repository.datasource.StoreRemoteDataSource
+import com.rajabi.fakestoreapplication.data.repository.datasourceimpl.StoreRemoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class RemoteDataSourceModule {
     @Singleton
     @Provides
-    fun provideProductsRemoteDataSource(fakeStoreAPIServices: FakeStoreAPIServices): FakeStoreRemoteDataSource {
-        return FakeStoreRemoteDataSourceImpl(fakeStoreAPIServices)
+    fun provideProductsRemoteDataSource(storeAPIServices: StoreAPIServices): StoreRemoteDataSource {
+        return StoreRemoteDataSourceImpl(storeAPIServices)
     }
 }

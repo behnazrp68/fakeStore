@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 
-interface FakeStoreAPIServices {
+interface StoreAPIServices {
 
     @GET("/products")
     suspend fun getAllProducts(): Response<APIResponse>

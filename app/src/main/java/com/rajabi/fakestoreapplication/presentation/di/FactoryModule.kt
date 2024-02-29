@@ -4,7 +4,6 @@ import android.app.Application
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
 import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
-import com.rajabi.fakestoreapplication.domain.usecase.UpdateProductUsecase
 import com.rajabi.fakestoreapplication.presentation.viewmodel.FakeStoreViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -21,12 +20,11 @@ class FactoryModule {
         app: Application,
         getAllProductsUsecase: GetAllProductsUsecase,
         saveProductUsecase: SaveProductUsecase,
-        updateProductUsecase: UpdateProductUsecase,
         getProductByIDUsecase: GetProductByIDUsecase
     ): FakeStoreViewModelFactory {
         return FakeStoreViewModelFactory(
             app, getAllProductsUsecase, saveProductUsecase,
-            updateProductUsecase, getProductByIDUsecase
+            getProductByIDUsecase
         )
     }
 

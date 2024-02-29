@@ -1,8 +1,6 @@
 package com.rajabi.fakestoreapplication.presentation.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.media.AudioManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -10,19 +8,16 @@ import com.anushka.tmdbclient.getOrAwaitValue
 import com.google.common.truth.Truth.assertThat
 import com.rajabi.divarapplication.data.util.Resource
 import com.rajabi.fakestoreapplication.data.model.APIResponse
-import com.rajabi.fakestoreapplication.data.repository.FakeProductRepository
+import com.rajabi.fakestoreapplication.data.repository.ProductRepository
 import com.rajabi.fakestoreapplication.domain.usecase.GetAllProductsUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.GetProductByIDUsecase
+import com.rajabi.fakestoreapplication.domain.usecase.SaveProductUsecase
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import org.mockito.Mockito
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows.shadowOf
-import org.robolectric.shadows.ShadowContextImpl
 
 
 @RunWith(RobolectricTestRunner::class)
@@ -36,11 +31,17 @@ class FakeStoreViewModelTest {
 
     @Before
     fun setup() {
-        val fakeProductRepository = FakeProductRepository()
+        val fakeProductRepository = ProductRepository()
         val getAllProductsUsecase = GetAllProductsUsecase(fakeProductRepository)
+        val saveProductUsecase = SaveProductUsecase(fakeProductRepository)
+        val getProductByIDUsecase = GetProductByIDUsecase(fakeProductRepository)
+
         val app = getApplicationContext<Application>()
 
-        fakeStoreViewModel = FakeStoreViewModel(app, getAllProductsUsecase)
+        fakeStoreViewModel = FakeStoreViewModel(app,
+            getAllProductsUsecase,
+            saveProductUsecase,
+            getProductByIDUsecase)
         runBlockingTest {
             products.value = getAllProductsUsecase.execute()
         }
@@ -56,6 +57,12 @@ class FakeStoreViewModelTest {
     }
 
 
+    @Test
+    fun returnLoadingState() {
+        fakeStoreViewModel.getProducts()
+        val currentList = fakeStoreViewModel.products.getOrAwaitValue{}
+        assertThat(currentList.data).isNull()
+    }
 
     @Test
     fun returnSuccessState() {

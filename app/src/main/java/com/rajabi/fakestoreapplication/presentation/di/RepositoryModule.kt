@@ -1,9 +1,9 @@
 package com.rajabi.fakestoreapplication.presentation.di
 
 
-import com.rajabi.fakestoreapplication.domain.repository.FakeStoreRepository
-import com.rajabi.fakestoreapplication.data.repository.FakeStoreRepositoryImpl
-import com.rajabi.fakestoreapplication.data.repository.datasource.FakeStoreRemoteDataSource
+import com.rajabi.fakestoreapplication.domain.repository.StoreRepository
+import com.rajabi.fakestoreapplication.data.repository.StoreRepositoryImpl
+import com.rajabi.fakestoreapplication.data.repository.datasource.StoreRemoteDataSource
 import com.rajabi.fakestoreapplication.data.repository.datasource.StoreLocalDataSource
 import dagger.Module
 import dagger.Provides
@@ -17,11 +17,11 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideDivarRepository(
-        fakeStoreRemoteDataSource: FakeStoreRemoteDataSource,
+        storeRemoteDataSource: StoreRemoteDataSource,
         satoreLocalDataSource: StoreLocalDataSource
-    ): FakeStoreRepository {
-        return FakeStoreRepositoryImpl(
-            fakeStoreRemoteDataSource, satoreLocalDataSource
+    ): StoreRepository {
+        return StoreRepositoryImpl(
+            storeRemoteDataSource, satoreLocalDataSource
         )
     }
 }
