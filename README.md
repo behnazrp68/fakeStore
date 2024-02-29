@@ -1,7 +1,6 @@
 # fakeStore
 
-Assignment for interview 
-this is an application contains single screen that displays products from api
+this is an application contains two screen that displays products from api and display detail of product screen
 
 ## Clean architecture with 3 main modules
 - Data ( API and model classes)
@@ -14,6 +13,7 @@ this is an application contains single screen that displays products from api
 ## Other useful features
 - Dependency injection (with [Hilt])
 - Network calls (with [retrofit])
+- Database (with [Room])
 - Reactive Programming (with [Coroutine])
   
 ## Installation
